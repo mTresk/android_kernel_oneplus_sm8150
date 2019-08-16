@@ -5611,6 +5611,22 @@ static int sde_crtc_onscreenfinger_atomic_check(struct sde_crtc_state *cstate,
 		display->panel->dim_status = false;
 		cstate->fingerprint_pressed = false;
 		cstate->fingerprint_dim_layer = NULL;
+
+    if ((fp_index >= 0 && dim_mode!=0)||(display->panel->aod_status==1&& oneplus_aod_dc ==0)) {
+	op_dimlayer_bl = 0;
+    } else{
+	if (op_dimlayer_bl_enable && !op_dp_enable) {
+		if (display->panel->bl_config.bl_level != 0 &&
+			display->panel->bl_config.bl_level < op_dimlayer_bl_alpha){
+			dim_backlight = 1;
+			op_dimlayer_bl = 1;
+		} else{
+			op_dimlayer_bl = 0;
+		}
+	} else{
+		op_dimlayer_bl = 0;
+		}
+    }
 		return 0;
 	}
 
@@ -5634,22 +5650,6 @@ static int sde_crtc_onscreenfinger_atomic_check(struct sde_crtc_state *cstate,
 			}
 		}
         return 0;
-    }
-
-    if ((fp_index >= 0 && dim_mode!=0)||(display->panel->aod_status==1&& oneplus_aod_dc ==0)) {
-	op_dimlayer_bl = 0;
-    } else{
-	if (op_dimlayer_bl_enable && !op_dp_enable) {
-		if (display->panel->bl_config.bl_level != 0 &&
-			display->panel->bl_config.bl_level < op_dimlayer_bl_alpha){
-			dim_backlight = 1;
-			op_dimlayer_bl = 1;
-		} else{
-			op_dimlayer_bl = 0;
-		}
-	} else{
-		op_dimlayer_bl = 0;
-	}
     }
 
 	if (fp_index >= 0 || fppressed_index >= 0 || oneplus_force_screenfp || dim_backlight == 1) {
