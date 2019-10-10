@@ -22,6 +22,7 @@
 #include <linux/slab.h>
 #include <linux/input.h>
 #include <linux/time.h>
+#include <linux/binfmts.h>
 
 struct cpu_sync {
 	int cpu;
@@ -36,7 +37,7 @@ static struct work_struct input_boost_work;
 
 static bool input_boost_enabled;
 
-static unsigned int input_boost_ms = 40;
+static unsigned int input_boost_ms = 500;
 module_param(input_boost_ms, uint, 0644);
 
 static unsigned int sched_boost_on_input;
@@ -45,11 +46,11 @@ module_param(sched_boost_on_input, uint, 0644);
 static bool sched_boost_active;
 
 #ifdef CONFIG_DYNAMIC_STUNE_BOOST
-static int dynamic_stune_boost;
+static int dynamic_stune_boost = 20;
 module_param(dynamic_stune_boost, uint, 0644);
 static bool stune_boost_active;
 static int boost_slot;
-static unsigned int dynamic_stune_boost_ms = 40;
+static unsigned int dynamic_stune_boost_ms = 1500;
 module_param(dynamic_stune_boost_ms, uint, 0644);
 static struct delayed_work dynamic_stune_boost_rem;
 #endif /* CONFIG_DYNAMIC_STUNE_BOOST */
@@ -72,8 +73,11 @@ static int set_input_boost_freq(const char *buf, const struct kernel_param *kp)
 	if (!ntokens) {
 		if (sscanf(buf, "%u\n", &val) != 1)
 			return -EINVAL;
-		for_each_possible_cpu(i)
-			per_cpu(sync_info, i).input_boost_freq = val;
+		if (task_is_booster(current)){
+			per_cpu(sync_info, 0).input_boost_freq = 1555200;
+			per_cpu(sync_info, 4).input_boost_freq = 1209600;
+			per_cpu(sync_info, 7).input_boost_freq = 1171200;
+		}
 		goto check_enable;
 	}
 
