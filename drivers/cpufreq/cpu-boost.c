@@ -75,7 +75,7 @@ static int set_input_boost_freq(const char *buf, const struct kernel_param *kp)
 			return -EINVAL;
 		if (task_is_booster(current)){
 			per_cpu(sync_info, 0).input_boost_freq = 1555200;
-			per_cpu(sync_info, 4).input_boost_freq = 1209600;
+			per_cpu(sync_info, 4).input_boost_freq = 1286400;
 			per_cpu(sync_info, 7).input_boost_freq = 1171200;
 		}
 		goto check_enable;
