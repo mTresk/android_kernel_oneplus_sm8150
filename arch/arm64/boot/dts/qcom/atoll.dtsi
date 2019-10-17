@@ -549,7 +549,7 @@
 		wlan_fw_mem: wlan_fw_region@93500000 {
 			compatible = "removed-dma-pool";
 			no-map;
-			reg = <0 0x93500000 0 0x200000>;
+			reg = <0 0x93900000 0 0x200000>;
 		};
 
 		pil_ipa_fw_mem: ipa_fw_region@93700000 {
@@ -1060,6 +1060,19 @@
 	};
 
 	qcom,npu@9800000 {
+		compatible = "qcom,pil-tz-generic";
+		reg = <0x9800000 0x800000>;
+
+		qcom,pas-id = <23>;
+		qcom,firmware-name = "npu";
+		memory-region = <&pil_npu_mem>;
+
+		/* Outputs to npu */
+		qcom,smem-states = <&npu_smp2p_out 0>;
+		qcom,smem-states-names = "qcom,force-stop";
+	};
+
+	qcom,turing@8300000 {
 		compatible = "qcom,pil-tz-generic";
 		reg = <0x9800000 0x800000>;
 
@@ -2882,14 +2895,6 @@
 #include "atoll-usb.dtsi"
 #include "atoll-vidc.dtsi"
 #include "atoll-npu.dtsi"
-
-&usb0 {
-	extcon = <&pm6150_pdphy>, <&pm6150_charger>;
-};
-
-&usb_qmp_dp_phy {
-	extcon = <&pm6150_pdphy>;
-};
 
 &pm6150_vadc {
 	pinctrl-names = "default";
