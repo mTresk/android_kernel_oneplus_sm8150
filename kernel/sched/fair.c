@@ -7398,7 +7398,7 @@ static inline bool task_fits_max(struct task_struct *p, int cpu)
 {
 	unsigned long capacity = capacity_orig_of(cpu);
 	unsigned long max_capacity = cpu_rq(cpu)->rd->max_cpu_capacity.val;
-	unsigned long task_boost = per_task_boost(p);
+	unsigned long __maybe_unused task_boost = per_task_boost(p);
 
 	if (capacity == max_capacity)
 		return true;
