@@ -213,6 +213,26 @@ config CPU_BOOST
 
 	  If in doubt, say N.
 
+
+if CPU_BOOST
+
+config INPUT_STUNE_BOOST_DURATION
+	int "Foreground app SchedTune boost duration"
+	depends on DYNAMIC_STUNE_BOOST
+	default "40"
+	help
+	  SchedTune boost duration in milliseconds.
+
+config INPUT_STUNE_BOOST
+	int "Foreground app SchedTune boost value"
+	depends on DYNAMIC_STUNE_BOOST
+	default "0"
+	help
+	  SchedTune boost value for the foreground app. This alters the
+	  perceived load in order to bias CPU and frequency selection.
+
+endif
+
 config CPU_FREQ_GOV_SCHEDUTIL
 	bool "'schedutil' cpufreq policy governor"
 	depends on CPU_FREQ && SMP
