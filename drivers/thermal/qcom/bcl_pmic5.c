@@ -728,7 +728,7 @@ static void bcl_lvl_init(struct platform_device *pdev,
 	thermal_zone_device_update(lbat->tz_dev, THERMAL_DEVICE_UP);
 }
 
-static void bcl_probe_lvls(struct platform_device *pdev,
+static void __maybe_unused bcl_probe_lvls(struct platform_device *pdev,
 					struct bcl_device *bcl_perph)
 {
 	bcl_lvl_init(pdev, BCL_LVL0, BCL_IRQ_L0, bcl_perph);

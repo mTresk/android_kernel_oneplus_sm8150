@@ -221,7 +221,7 @@ static void msm_geni_serial_stop_rx(struct uart_port *uport);
 static int msm_geni_serial_runtime_resume(struct device *dev);
 static int msm_geni_serial_runtime_suspend(struct device *dev);
 static int uart_line_id;
-static int msm_geni_serial_get_ver_info(struct uart_port *uport);
+static int msm_geni_serial_get_ver_info(struct uart_port *uport) __maybe_unused;
 static void msm_geni_serial_set_manual_flow(bool enable,
 				struct msm_geni_serial_port *port);
 
