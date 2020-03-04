@@ -197,7 +197,7 @@ static int cp_get_parallel_mode(struct pl_data *chip, int mode)
 	return pval.intval;
 }
 
-static int get_hvdcp3_icl_limit(struct pl_data *chip)
+static int  __maybe_unused get_hvdcp3_icl_limit(struct pl_data *chip)
 {
 	int rc, main_icl, target_icl = -EINVAL;
 	union power_supply_propval pval = {0, };
